@@ -41,6 +41,13 @@ public class AccountManagementTest extends AbstractIntegrationTest {
 
         AccountDto dto2 = executeRequest("/accounts/" + dto.getId(), "GET", null, 200, AccountDto.class);
 
+        Assert.assertEquals(dto.getId(), dto2.getId());
+        Assert.assertEquals(dto.getAmount(), dto2.getAmount());
+        Assert.assertEquals(dto.getBlocked(), dto2.getBlocked());
+        Assert.assertEquals(dto.getCreationTime(), dto2.getCreationTime());
+        Assert.assertEquals(dto.getDescription(), dto2.getDescription());
+        Assert.assertEquals(dto.getLastUpdate(), dto2.getLastUpdate());
+
         executeRequest("/accounts/" + 999, "GET", null, 404, null);
     }
 }

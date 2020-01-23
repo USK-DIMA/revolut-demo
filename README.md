@@ -48,7 +48,7 @@ or if you start the application programmatically you can use class `TransferAppC
     
 ## Integration tests
 
-    You can find an integration test in module transfer-app in classes `ru.uskov.dmitry.transferapp.TransferTest` and `ru.uskov.dmitry.transferapp.AbstractIntegrationTest`
+    You can find an integration test in module transfer-app in classes `ru.uskov.dmitry.transferapp.TransferTest` and `ru.uskov.dmitry.transferapp.AccountManagementTest`
 
 ## Comment
 I haven't described rest api in this file because I am sure it is not necessary in Test Home task. You can understand how this api works after you have watched classes 
