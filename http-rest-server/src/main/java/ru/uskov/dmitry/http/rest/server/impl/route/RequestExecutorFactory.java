@@ -9,7 +9,6 @@ import ru.uskov.dmitry.http.rest.server.impl.marshaller.Marshaller;
 import ru.uskov.dmitry.http.rest.server.impl.resolvers.*;
 import ru.uskov.dmitry.http.rest.server.utils.ClassUtils;
 import ru.uskov.dmitry.http.rest.server.utils.TypeUtils;
-import ru.uskov.dmitry.http.rest.server.utils.TriFunction;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

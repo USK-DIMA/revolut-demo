@@ -51,9 +51,8 @@ or if you start the application programmatically you can use class `TransferAppC
     You can find an integration test in module transfer-app in classes `ru.uskov.dmitry.transferapp.TransferTest` and `ru.uskov.dmitry.transferapp.AbstractIntegrationTest`
 
 ## Comment
-
-    I haven't described rest api in this file because I am sure it is not necessary in Test Home task. You can understand how this api works after you have watched classes 
-    `ru.uskov.dmitry.transferapp.rest.controller.AccountManagementController` and `ru.uskov.dmitry.transferapp.rest.controller.TransferController`.
+I haven't described rest api in this file because I am sure it is not necessary in Test Home task. You can understand how this api works after you have watched classes 
+`ru.uskov.dmitry.transferapp.rest.controller.AccountManagementController` and `ru.uskov.dmitry.transferapp.rest.controller.TransferController`.
     
-    P.S. as you can see this project contains two modules. The first is transfer-app. It is rest-api implementation. And the second one is http-rest-server. 
-    It is http-server implementation, which makes creating REST-services easier. I am not allowed to use big frameworks, such as Spring, so I have made this mini-framework myself
+P.S. as you can see this project contains two modules. The first is transfer-app. It is rest-api implementation. And the second one is http-rest-server. 
+It is http-server implementation, which makes creating REST-services easier. I am not allowed to use big frameworks, such as Spring, so I have made this mini-framework myself
