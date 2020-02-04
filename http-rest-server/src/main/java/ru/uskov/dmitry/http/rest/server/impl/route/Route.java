@@ -14,58 +14,58 @@ public class Route {
 
     private static final String PATH_SEPARATOR = "/";
 
-    private final String path;
+    private final String pathSegment;
     private final Route parent;
     private final Map<String, Route> staticNexRoutes = new ConcurrentHashMap<>();
     private final AtomicReference<Route> templatedRoute = new AtomicReference<>();
     private final Map<String, RequestExecutor> executorsByMethod = new ConcurrentHashMap<>();
 
     public Route() {
-        this.path = "/";
+        this.pathSegment = "/";
         this.parent = null;
     }
 
-    public Route(Route parent, String path) {
+    public Route(Route parent, String pathSegment) {
         this.parent = parent;
-        this.path = path;
+        this.pathSegment = pathSegment;
     }
 
     public void register(@NotNull RequestExecutor executor, @NotNull String path, @NotNull String method) {
-        String[] split = path.split("/");
-        if (split.length > 0 && split[0].equals("")) {
-            split = Arrays.copyOfRange(split, 1, split.length);
+        String[] pathSegments = path.split("/");
+        if (pathSegments.length > 0 && pathSegments[0].equals("")) {
+            pathSegments = Arrays.copyOfRange(pathSegments, 1, pathSegments.length);
         }
-        register(executor, split, method);
+        register(executor, pathSegments, method);
     }
 
-    private void register(@NotNull RequestExecutor executor, @NotNull String[] splitPath, @NotNull String method) {
-        if (splitPath.length == 0) {
+    private void register(@NotNull RequestExecutor executor, @NotNull String[] pathSegments, @NotNull String method) {
+        if (pathSegments.length == 0) {
             registerExecutor(executor, method);
             return;
         }
-        String nextPath = splitPath[0];
+        String nextSegment = pathSegments[0];
         Route route;
 
-        if (isTemplate(nextPath)) {
-            route = getOrCreateTemplateRoute(nextPath);
+        if (isTemplate(nextSegment)) {
+            route = getOrCreateTemplateRoute(nextSegment);
         } else {
-            route = getOrCreateStaticRoute(nextPath);
+            route = getOrCreateStaticRoute(nextSegment);
         }
 
-        route.register(executor, Arrays.copyOfRange(splitPath, 1, splitPath.length), method);
+        route.register(executor, Arrays.copyOfRange(pathSegments, 1, pathSegments.length), method);
     }
 
-    private Route getOrCreateStaticRoute(String nextPath) {
-        Route route = new Route(this, nextPath);
-        Route fromMap = staticNexRoutes.putIfAbsent(nextPath, route);
+    private Route getOrCreateStaticRoute(String nextPathSegment) {
+        Route route = new Route(this, nextPathSegment);
+        Route fromMap = staticNexRoutes.putIfAbsent(nextPathSegment, route);
         if (fromMap != null) {
             route = fromMap;
         }
         return route;
     }
 
-    private Route getOrCreateTemplateRoute(String nextPath) {
-        Route route = new Route(this, nextPath);
+    private Route getOrCreateTemplateRoute(String nextPathSegment) {
+        Route route = new Route(this, nextPathSegment);
         boolean isSet = templatedRoute.compareAndSet(null, route);
         if (!isSet) {
             route = templatedRoute.get();
@@ -73,10 +73,10 @@ public class Route {
         return route;
     }
 
-    private boolean isTemplate(String path) {
-        if (TemplateUtils.TEMPLATE_PATTERN_FINDER.matcher(path).find()) {
-            if (!TemplateUtils.TEMPLATE_PATTERN_VALIDATOR.matcher(path).find()) {
-                throw new IllegalArgumentException("Invalid template path '" + path + "'");
+    private boolean isTemplate(String pathSegment) {
+        if (TemplateUtils.TEMPLATE_PATTERN_FINDER.matcher(pathSegment).find()) {
+            if (!TemplateUtils.TEMPLATE_PATTERN_VALIDATOR.matcher(pathSegment).find()) {
+                throw new IllegalArgumentException("Invalid template path segment '" + pathSegment + "'");
             }
             return true;
         }
@@ -134,9 +134,9 @@ public class Route {
             if (!result.equals(PATH_SEPARATOR)) {
                 result = PATH_SEPARATOR;
             }
-            result += path;
+            result += pathSegment;
         } else {
-            result = PATH_SEPARATOR + path;
+            result = PATH_SEPARATOR + pathSegment;
         }
         return result;
     }
